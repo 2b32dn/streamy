@@ -9,6 +9,12 @@
       "description": "Be water my friend",
       "title": "Other Stream",
       "id": 2
+    },
+    {
+      "title": "I created this stream",
+      "description": "user",
+      "userId": "105788893942850175162",
+      "id": 3
     }
   ]
 }
