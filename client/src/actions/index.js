@@ -1,3 +1,5 @@
+import history from '../history'
+import streams from '../apis/streams'
 import { 
   SIGN_IN, 
   SIGN_OUT, 
@@ -7,7 +9,7 @@ import {
   EDIT_STREAM,
   DELETE_STREAM,
 } from './types'
-import streams from '../apis/streams'
+
 
 export const signIn = (userId) => {
   return {
@@ -29,6 +31,9 @@ export const createStream = formValues => async (dispatch, getState) => {
     type: CREATE_STREAM,
     payload: response.data
   })
+  // do some programmatic navigation to get the user back to the root route. We need to access the history object.
+  // Complicated. So we created our history object. BrowserRouter creates the history object but we dont want it\
+  history.push('/')
 }
 export const fetchStreams = () => async dispatch => {
   const response = await streams.get('/streams')
@@ -38,18 +43,19 @@ export const fetchStreams = () => async dispatch => {
   })
 }
 export const fetchStream = (id) => async dispatch => {
-  const response = await streams.get(`/streams/:${id}`)
+  const response = await streams.get(`/streams/${id}`)
   dispatch({
     type: FETCH_STREAM,
     payload: response.data
   })
 }
 export const editStream = (id, formValues) => async dispatch => {
-  const response = await streams.put(`/streams/${id}`, formValues)
+  const response = await streams.patch(`/streams/${id}`, formValues)
   dispatch({
     type: EDIT_STREAM,
     payload: response.data
   })
+  history.push('/')
 }
 export const deleteStream = (id) => async dispatch => {
   await streams.delete(`/streams/${id}`)
